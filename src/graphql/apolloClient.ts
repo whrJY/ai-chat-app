@@ -14,7 +14,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 // 创建 HTTP 链接，指向你的 GraphQL API
 const httpLink = new HttpLink({
-  uri: "https://rongweb.win/api/", 
+  uri: "https://rongweb.win/api/graphql", 
   fetchOptions: {
     mode: 'cors',
   }
