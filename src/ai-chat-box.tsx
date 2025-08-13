@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User } from 'lucide-react';
-
+import Markdown from "./components/markdown";
 interface Message {
   id: string;
   content: string;
@@ -141,7 +141,14 @@ const AIChatBox: React.FC<ChatBoxProps> = ({
                   : 'bg-white text-gray-800 rounded-bl-none shadow-sm'
                 }`}
             >
-              <p className="whitespace-pre-wrap">{message.content}</p>
+
+              {/* 
+                  这里可以添加对消息内容的处理，比如解析Markdown等
+              */}
+              <Markdown message={message}></Markdown>
+              {/* <p className="whitespace-pre-wrap">{message.content}</p> */}
+
+
               <p
                 className={`text-xs mt-1 ${message.role === 'user'
                     ? 'text-blue-100'
