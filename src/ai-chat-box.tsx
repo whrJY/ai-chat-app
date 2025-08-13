@@ -145,7 +145,7 @@ const AIChatBox: React.FC<ChatBoxProps> = ({
               {/* 
                   这里可以添加对消息内容的处理，比如解析Markdown等
               */}
-              <Markdown message={message}></Markdown>
+              <Markdown content={message.content} role={message.role} />
               {/* <p className="whitespace-pre-wrap">{message.content}</p> */}
 
 
