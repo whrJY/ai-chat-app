@@ -4,7 +4,7 @@ import { Send, Bot, User } from 'lucide-react';
 interface Message {
   id: string;
   content: string;
-  sender: 'user' | 'ai';
+  role: 'user' | 'ai';
   timestamp: Date;
 }
 
@@ -23,7 +23,7 @@ const AIChatBox: React.FC<ChatBoxProps> = ({
     {
       id: '1',
       content: '你好！我是你的AI助手，有什么可以帮助你的吗？',
-      sender: 'ai',
+      role: 'ai',
       timestamp: new Date()
     }
   ]);
@@ -46,19 +46,20 @@ const AIChatBox: React.FC<ChatBoxProps> = ({
     const userMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
-      sender: 'user',
+      role: 'user',
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
-
     try {
       let aiResponse: Message;
 
       if (onSendMessage) {
         aiResponse = await onSendMessage(userMessage);
+        //"2025-08-13T04:06:59.000Z" 字符串转化为 date对象
+        aiResponse.timestamp = new Date(aiResponse.timestamp);
       } else {
         // 模拟AI响应
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -73,7 +74,7 @@ const AIChatBox: React.FC<ChatBoxProps> = ({
         aiResponse = {
           id: (Date.now() + 1).toString(),
           content: message,
-          sender: 'ai',
+          role: 'ai',
           timestamp: new Date()
         };
       }
@@ -82,7 +83,7 @@ const AIChatBox: React.FC<ChatBoxProps> = ({
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: '抱歉，我遇到了一些问题。请稍后再试。',
-        sender: 'ai',
+        role: 'ai',
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -119,30 +120,30 @@ const AIChatBox: React.FC<ChatBoxProps> = ({
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex items-start gap-2 ${message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'
+            className={`flex items-start gap-2 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'
               }`}
           >
             <div
-              className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${message.sender === 'user'
+              className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${message.role === 'user'
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-300 text-gray-600'
                 }`}
             >
-              {message.sender === 'user' ? (
+              {message.role === 'user' ? (
                 <User className="w-4 h-4" />
               ) : (
                 <Bot className="w-4 h-4" />
               )}
             </div>
             <div
-              className={`max-w-xs lg:max-w-md px-3 py-2 rounded-lg text-sm ${message.sender === 'user'
+              className={`max-w-xs lg:max-w-md px-3 py-2 rounded-lg text-sm ${message.role === 'user'
                   ? 'bg-blue-500 text-white rounded-br-none'
                   : 'bg-white text-gray-800 rounded-bl-none shadow-sm'
                 }`}
             >
               <p className="whitespace-pre-wrap">{message.content}</p>
               <p
-                className={`text-xs mt-1 ${message.sender === 'user'
+                className={`text-xs mt-1 ${message.role === 'user'
                     ? 'text-blue-100'
                     : 'text-gray-500'
                   }`}

@@ -17,16 +17,11 @@ function App() {
             const { data } = await client.mutate({
               mutation: SEND_MESSAGE,
               variables: {
-                input: {
-                  content: message.content,
-                  role: message.sender, // 或者根据你的需求设置角色
-                  timestamp: message.timestamp
-                }
+                input:  message.content
               }
             });
-            console.log('Message sent successfully:', data);
-            return data;
-          } catch (error) {
+            return data.SendMessage;
+          } catch (error) {``
             console.error('Error sending message:', error);
           }
         }

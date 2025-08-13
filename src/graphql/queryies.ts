@@ -3,8 +3,8 @@ import { gql } from '@apollo/client';
 
 // 1. 定义发送消息的 mutation
 const SEND_MESSAGE = gql`
-  mutation SendMessage($input: MessageInput!) {
-    sendMessage(input: $input) {
+  mutation SendMessage($input: String!) {
+    SendMessage(input: $input) {
       id
       content
       role
